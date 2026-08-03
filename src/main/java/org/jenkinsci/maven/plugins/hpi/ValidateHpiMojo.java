@@ -19,7 +19,8 @@ import org.jenkinsci.maven.plugins.hpi.util.Utils;
 @Mojo(
         name = "validate-hpi",
         defaultPhase = LifecyclePhase.VALIDATE,
-        requiresDependencyResolution = ResolutionScope.TEST)
+        requiresDependencyResolution = ResolutionScope.TEST,
+        threadSafe = true)
 public class ValidateHpiMojo extends AbstractHpiMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -68,7 +69,8 @@ public class ValidateHpiMojo extends AbstractHpiMojo {
                 if (mainAttributes.containsKey(hName)) {
                     return new VersionNumber(mainAttributes.getValue(hName));
                 } else {
-                    throw new MojoExecutionException("Could not find Jenkins Version in manifest for " + artifact);
+                    throw new MojoExecutionException("Could not find Jenkins-Version in manifest for " + file
+                            + " of size " + file.length() + " (" + artifact + "): " + mainAttributes.entrySet());
                 }
             }
         } else {
